@@ -6,9 +6,9 @@ I created this as a solution to the annoyingly short DHCP leases handed out by m
 
 
 ## Features
-  -Easy to configure, sporting an ini file to easily change all relevant settings
-  -Support for all types of DNS records
-  -Logging 
+-Easy to configure, sporting an ini file to easily change all relevant settings
+-Support for all types of DNS records
+-Logging 
   
 ## Installation
 Download the repository to your computer, placing the unzipped files somewhere out of the way (assuming you want it to run scheduled).
