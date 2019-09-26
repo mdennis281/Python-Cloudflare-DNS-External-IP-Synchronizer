@@ -43,7 +43,7 @@ pip install configparser requests
 ```
 (requirements.txt located in the "src" folder if you have issues with versioning)
 
-You should now be good run "main.py" in the "src" folder.
+You should now be good to run "main.py" in the "src" folder.
 
 If it's not working, a good place to start is checking the log file you specified in the ini folder (should be created automatically).
 
@@ -56,6 +56,7 @@ python main.py
 feel free to add a "pause" at the end for testing.
 
 NOTE:  be sure to add the FULL path! relative path will not work from task scheduler
+
 NOTE2: ensure "python" is the correct identifier. May be "py", "python3", etc
 double click the newly created .bat file.
 
