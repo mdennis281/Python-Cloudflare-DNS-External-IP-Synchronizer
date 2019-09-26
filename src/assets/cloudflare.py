@@ -1,3 +1,8 @@
+# Author: Michael Dennis (https://github.com/mdennis281)
+# Created: 09-26-2019
+# Project Repository: https://github.com/mdennis281/Python-Cloudflare-DNS-External-IP-Synchronizer
+# License: MIT (https://en.wikipedia.org/wiki/MIT_License)
+
 from assets.config import load as config
 from assets.logger import log
 from assets import publicIP
@@ -15,6 +20,10 @@ class CloudFlare:
         self.getZoneID()
         self.getDNSRecord()
 
+    #Gets the ID of zone specified in the config file
+    #Returns: zoneID
+    #Defines: self.getZoneID
+    #This runs on instanciation of the class.
     def getZoneID(self):
         params = {
             'name': self.settings['API']['siteName']
@@ -45,6 +54,11 @@ class CloudFlare:
         log(err)
         raise Exception(err)
 
+    #Gets the ID of a DNS record specified in the config file
+    #Returns: recordID || None
+    #Defines: self.recordID, self.recordIP
+    #Defines both of the above to none if no record exists
+    #This runs on instanciation of the class.
     def getDNSRecord(self):
         params = {
             'name': self.settings['DNS']['name']
@@ -70,7 +84,13 @@ class CloudFlare:
 
         self.recordID = None
         self.recordIP = None
+        return None
 
+
+    #Updates a DNS Record in CloudFlare
+    #Will automatically call "create" if no record exists.
+    #Returns: True (will raise exception otherwise)
+    #relies on data from the config.ini file
     def updateRecord(self):
         IP = publicIP.get()
 
@@ -93,11 +113,19 @@ class CloudFlare:
                 err= 'CLOUDFLARE ERROR: '+response.json()['errors'][0]['message']
                 log(err)
                 raise Exception(err)
-        elif self.recordIP != IP:
-            self.createRecord()
+        elif not self.recordID: #no existing record
+            if self.settings['DNS']['createRecord']:
+                return self.createRecord()
+            log(
+                'No DNS record exists. set createRecord to True in the config '+
+                'file to automatically create a new record'
+            )
         else:
             log('Current public IP matches DNS Record')
 
+    #Creates a DNS Record in CloudFlare
+    #Returns: True (will raise exception otherwise)
+    #relies on data from the config.ini file
     def createRecord(self):
         IP = publicIP.get()
         payload = {
