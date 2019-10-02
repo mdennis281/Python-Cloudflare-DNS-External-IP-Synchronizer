@@ -43,7 +43,7 @@ class CloudFlare:
 
         if not response.json()['success']:
             err='CLOUDFLARE ERROR: '+response.json()['errors'][0]['message']
-            log(err)
+            log(err,1)
             raise Exception(err)
 
         err = (
@@ -51,7 +51,7 @@ class CloudFlare:
             self.settings['API']['siteName']+
             '" Does not exist!'
         )
-        log(err)
+        log(err,1)
         raise Exception(err)
 
     #Gets the ID of a DNS record specified in the config file
@@ -79,7 +79,7 @@ class CloudFlare:
 
         if not response.json()['success']:
             err = 'CLOUDFLARE ERROR: '+response.json()['errors'][0]['message']
-            log(err)
+            log(err,1)
             raise Exception(err)
 
         self.recordID = None
@@ -107,11 +107,11 @@ class CloudFlare:
                 headers=self.headers
             )
             if response.json()['success']:
-                log('DNS Record IP Updated to: '+IP+' (old: '+self.recordIP+')')
+                log('DNS Record IP Updated to: '+IP+' (old: '+self.recordIP+')',2)
                 return True
             else:
                 err= 'CLOUDFLARE ERROR: '+response.json()['errors'][0]['message']
-                log(err)
+                log(err,1)
                 raise Exception(err)
         elif not self.recordID: #no existing record
             if self.settings['DNS']['createRecord']:
@@ -119,9 +119,9 @@ class CloudFlare:
             log(
                 'No DNS record exists. set createRecord to True in the config '+
                 'file to automatically create a new record'
-            )
+            ,2)
         else:
-            log('Current public IP matches DNS Record')
+            log('Current public IP matches DNS Record',3)
 
     #Creates a DNS Record in CloudFlare
     #Returns: True (will raise exception otherwise)
@@ -142,9 +142,9 @@ class CloudFlare:
         )
 
         if response.json()['success']:
-            log('DNS Record created to: '+IP)
+            log('DNS Record created to: '+IP,2)
             return True
         else:
             err= 'CLOUDFLARE ERROR: '+response.json()['errors'][0]['message']
-            log(err)
+            log(err,1)
             raise Exception(err)

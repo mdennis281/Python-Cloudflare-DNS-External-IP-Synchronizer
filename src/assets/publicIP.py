@@ -35,5 +35,5 @@ def get():
             log('Unable to parse IP from: ' + url +' | '+repr(err))
 
     e = 'NETWORK ERROR: Could not determine public IP.'
-    log(e)
+    log(e,1)
     raise Exception(e)

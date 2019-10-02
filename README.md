@@ -2,14 +2,14 @@
 
 This awkwardly named repository will synchronize a CloudFlare DNS record with your current public IP addresses.
 
-I created this as a solution to the annoyingly short DHCP leases handed out by my ISP. Personally, I use it to set an A record on one of my site's subdomains- allowing me to RDP into my machine by hostname, without having to worry about whether or not my external IP changed. 
+I created this as a solution to the annoyingly short DHCP leases handed out by my ISP. Personally, I use it to set an A record on one of my site's subdomains- allowing me to RDP into my machine by hostname, without having to worry about whether or not my external IP changed.
 
 
 ## Features
 - Easy to configure, sporting an ini file to easily change all relevant settings
 - Support for all types of DNS records
-- Logging 
-  
+- Logging
+
 ## Installation
 Download the repository to your computer, placing the unzipped files somewhere out of the way (assuming you want it to run scheduled).
 
@@ -17,7 +17,7 @@ Create an API token for CloudFlare at this link: https://dash.cloudflare.com/pro
 Give the token the following permissions:
 *    Zone   Zone   Read
 *    Zone   DNS    Edit
-    
+
 Open the "src" folder, and open "config.ini" in your favorite text editor.
 
 Fill out the fields with the appropriate information. Here's an example:
@@ -35,6 +35,7 @@ createRecord = True
 [general]
 loggingEnabled = True
 logPath = /var/log/CF-DNS.log
+logLevel = 2
 ```
 
 pip install the following packages: configparser, requests
@@ -80,5 +81,5 @@ When finished, you can right click the newly created task & click "Run". Then, c
 Open terminal (assuming GUI)
 
 type "crontab -e"
-create a cron job at the desired frequency with the command "python /path/to/project/main.py" 
+create a cron job at the desired frequency with the command "python /path/to/project/main.py"
 >Note: If you dont know how to format a cron job, use this: https://crontab-generator.org/
