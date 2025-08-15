@@ -5,25 +5,34 @@
 
 from configparser import ConfigParser
 
-def load():
-    config = ConfigParser()
-    config.read('config.ini')
 
-    config = {
-        'general': {
-            'logPath': config.get('general','logPath',fallback="..\\CF-DNS.log"),
-            'loggingEnabled': config.getboolean('general','loggingEnabled',fallback=False),
-            'logLevel': config.getint('general','logLevel',fallback=2)
+def load_config():
+    """Load configuration values from config.ini into a dictionary."""
+
+    parser = ConfigParser()
+    parser.read("config.ini")
+
+    settings = {
+        "general": {
+            "logPath": parser.get(
+                "general", "logPath", fallback="..\\CF-DNS.log"
+            ),
+            "loggingEnabled": parser.getboolean(
+                "general", "loggingEnabled", fallback=False
+            ),
+            "logLevel": parser.getint("general", "logLevel", fallback=2),
         },
-        'API': {
-            'token': config.get('CloudFlare-API','token',fallback=""),
-            'siteName': config.get('CloudFlare-API','siteName',fallback="")
+        "API": {
+            "token": parser.get("CloudFlare-API", "token", fallback=""),
+            "siteName": parser.get("CloudFlare-API", "siteName", fallback=""),
         },
-        'DNS': {
-            'name': config.get('DNS','name',fallback=""),
-            'recordType': config.get('DNS','recordType',fallback="A"),
-            'proxied': config.getboolean('DNS','proxied',fallback=False),
-            'createRecord': config.getboolean('DNS','createRecord',fallback=True)
-        }
+        "DNS": {
+            "name": parser.get("DNS", "name", fallback=""),
+            "recordType": parser.get("DNS", "recordType", fallback="A"),
+            "proxied": parser.getboolean("DNS", "proxied", fallback=False),
+            "createRecord": parser.getboolean(
+                "DNS", "createRecord", fallback=True
+            ),
+        },
     }
-    return config
+    return settings
